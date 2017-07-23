@@ -7,7 +7,8 @@ body {
   font-family: 'Lora', serif;
   font-size: 21px;
   line-height: 1.52;
-  background-color: #f8f8f8;
+  /*background-color: #f8f8f8; */
+  background-color: #fff;
   text-rendering: optimizeLegibility;
 }
 
@@ -150,8 +151,8 @@ ul.tag-nav li a:hover{
 }
 
 .articles li a.show-ful {
-  color: #bbb;
-  padding-left: 23px;
+  color: #104384;
+  /*padding-left: 23px;*/
 }
 
 p.showmore {
