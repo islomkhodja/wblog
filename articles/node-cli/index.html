@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <title>NodeJS, CLI, Instagram! - The Hamidulla Khodja's blog
+    </title>
+    <link rel="alternate" href="http://islomkhodja.github.io/wblog/feed.xml" type="application/rss+xml" title="Gastarbeiter who aspires to become an Architect. 19 y.o">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
+    <link rel="stylesheet" href="/wblog/css/main.css">
+  </head>
+  <body class="article-detail">
+    <header class="header">
+      <div class="content-wrap">
+        <h1><a href="http://islomkhodja.github.io/wblog">NodeJS, CLI, Instagram!</a></h1>
+        <p class="author">Written by <span class="author"><a href="mailto:hamidullakhodjaev@gmail.com">Hamidulla Khodja</a></span>
+        </p><span class="big-date">July 29, 2017</span><br>
+        <ul class="tag-nav">
+          <li><a href="/wblog/tag/O‘zbekcha/1/" class="big-tag">O‘zbekcha</a></li>
+          <li><a href="/wblog/tag/Dev%20notes/1/" class="big-tag">Dev notes</a></li>
+          <li><a href="/wblog/tag/NodeJS/1/" class="big-tag">NodeJS</a></li>
+          <li><a href="/wblog/tag/Instagramm/1/" class="big-tag">Instagramm</a></li>
+          <li><a href="/wblog/tag/CLI/1/" class="big-tag">CLI</a></li>
+        </ul>
+      </div>
+    </header>
+    <div id="content">
+      <div class="content-wrap">
+        <article class="article">
+          <section class="content"><p>Assalom Alaykum Dunyo! Ba’zida offline paytda chiroyli qizlarni yoki chiroyli bino va tabiatli rasmlarni ko‘rgim kelib qoladi. Bugungi postda NodeJSda command line app qilishni o‘rganamiz. Bu cli app Instagramdagi hamma rasmlaringizni ko‘chirib beradigan&nbsp;bo‘ladi.</p>
+<p><span class="more"></span>
+<img src="./cat-hayron.jpg" width= ></p>
+<hr>
+<h1 id="mundarija">Mundarija</h1>
+<ul>
+<li><a href="#overview"><span class="caps">CLI</span></a><ul>
+<li><a href="#process-argv">Process.argv</a></li>
+<li><a href="#commander">Commander</a><!-- *   [Automatic Escaping for Special Characters](#autoescape) --></li>
+</ul>
+</li>
+<li><a href="#instagram">Instagram</a><ul>
+<li><a href="#insta-media">@hamidullakhodja/media</a></li>
+<li><a href="#rekursiv">Rekursiv&nbsp;metod</a></li>
+<li><a href="#async">Async.js&nbsp;metod</a></li>
+<li><a href="#auth">Avtorizatsiya (Shu yerda muammo&nbsp;bor..)</a></li>
+</ul>
+</li>
+<li><a href="#app">I have a pen, I have an apple. Ugghh…</a><ul>
+<li><a href="#init"><span class="caps">NPM</span>&nbsp;init</a></li>
+<li><a href="#insta_cli">Bilimlarni aralashtirish vaqti&nbsp;keldi</a></li>
+<li><a href="#global_module">Globallashtiramiz</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="overview"><span class="caps">CLI</span></h2>
+
+<h3 id="process-argv">Process.argv</h3>
+
+<p>NodeJSni <a href="https://nodejs.org/docs/latest/api/process.htm">dokumentatsiyasini</a> o‘qib chiqgan bo‘lsangiz, <code>require()</code> siz ham ishlaydigan <code>process</code> degan <code>global object</code> bor. Bu objectni <code>argv</code> massividan foydalanib cli dasturchalar tuzsa bo‘ladi. Bu massivni birinchi elementi har doim <code>process.execPath</code>ga teng. Aniqroq chunish uchun misol&nbsp;keltiramiz:</p>
+<p><code>pargv.js</code> faylni yaratib uni ichiga bu kodni&nbsp;yozsak:</p>
+<pre><code class="lang-javascript">process.argv.forEach(<span class="function">(<span class="params">arg, index</span>) =&gt;</span> {
+  <span class="built_in">console</span>.log(<span class="string">`<span class="subst">${index}</span>: <span class="subst">${arg}</span>`</span>);
+});
+</code></pre>
+<p>Keyin NodeJS <strong><em>process</em></strong>ni bunday qilib ishga&nbsp;tushirsak:</p>
+<pre><code>$ node pargv one two=three four
+</code></pre><p>Process menda mana bunday javob&nbsp;qaytaradi:</p>
+<pre><code>0: /usr/local/bin/node
+1: /Users/isa/test/node/pargv.js
+2: one
+3: two=three
+4: four
+</code></pre><h3 id="commander">Commander</h3>
+
+<p>Agar siz oddiyroq yoki o‘zingiz uchun cli dastur qilmoqchi bo‘lsangiz <code>process.argv</code> bilan qilgan maqul, ishingiz tez&nbsp;bitadi.</p>
+<p>Agar boshqalar ham ishlatishni xohlasangiz chunarliroq ko‘rinishda qilish kerak. <code>--help</code> argumentini albatta qilish kerak. Buni <code>process.argv</code> bilan qilish mumkin, lekin vaqt sarflashga to‘g‘ri keladi. Agar vaqt sarflashni xohlamasangiz <span class="caps">TJ</span> Holowaychuk yaratgan <a href="https://github.com/tj/commander.js/">commander</a> modulidan foydalanish mumkin. Bu modulda ko‘p narsalar avtomatlashgan, qulay va&nbsp;onsonlashtirilgan. </p>
+<p><strong><span class="caps">NPM</span></strong> dan <strong>commander</strong>ni ko‘chirib olamiz, <code>pargv.js</code>ga o‘zgartirishlar kiritamiz va tekshirib&nbsp;ko‘ramiz</p>
+<pre><code>$ npm i commander
+</code></pre><pre><code class="lang-Javascript"><span class="keyword">var</span> program = <span class="built_in">require</span>(<span class="string">'commander'</span>);
+
+program
+    .arguments(<span class="string">'&lt;file&gt;'</span>)
+    .option(<span class="string">'-u, --username &lt;username&gt;'</span>,  <span class="string">'Username yoziladi'</span>)
+    .option(<span class="string">'-p, --password &lt;password&gt;'</span>, <span class="string">'User ni paroli yoziladi'</span>)
+
+program.action(<span class="function"><span class="keyword">function</span>(<span class="params">file</span>) </span>{
+        <span class="comment">// console.log(file);</span>
+        doJob(program.username, program.password, file)
+    }
+);
+
+program.parse(process.argv);
+
+<span class="function"><span class="keyword">function</span> <span class="title">doJob</span>(<span class="params">u, p, file</span>) </span>{
+    <span class="built_in">console</span>.log(<span class="string">"Username "</span> + u)
+    <span class="built_in">console</span>.log(<span class="string">"Password "</span> + p)
+    <span class="built_in">console</span>.log(<span class="string">"File     "</span> + file)
+}
+</code></pre>
+<pre><code>$ node pargv --help
+
+  Usage: pargv [options] &lt;file&gt;
+
+
+  Options:
+
+    -u, --username &lt;username&gt;  Username yoziladi
+    -p, --password &lt;password&gt;  User ni paroli yoziladi
+    -h, --help                 output usage information
+</code></pre><hr>
+<h2 id="instagram">Instagram</h2>
+
+
+<h3 id="insta-media">@hamidullakhodja/media</h3>
+
+<p>URLni oxirigia <code>/media</code> qo‘shib oxirgi 20ta postni tayyor <span class="caps">JSON</span> formatda olish mumkin: <code>https://instagram.com/hamidullakhodja/media</code>.</p>
+<p>Agar hamma rasm kerak bo‘lsachi? Hamma postlar tugamaguncha siklda o‘sha 20ta rasmning oxirgi rasmining <code>id</code>sini <span class="caps">URL</span> paramertga <code>max_id=id</code> qilib qo‘shib jo‘natsak bo‘ladi: <code>https://instagram.com/hamidullakhodja/media?max_id=id</code>. Qulaylik uchun JSONda <code>more_available</code> polya ham bor, <code>true</code> va <code>false</code> qiymat&nbsp;oladigan.</p>
+<h3 id="rekursiv">Rekursiv&nbsp;metod</h3>
+
+<p>Keling endi NodeJSda amalda qo‘llab&nbsp;ko‘ramiz.</p>
+<p>Odatda men http requestlar uchun <a href="https://github.com/request/request">request</a> modulini ishlataman. Berilgan misolda http requestlar shu modul orqali&nbsp;bo‘ladi:</p>
+<pre><code>npm i request
+</code></pre><p>Bitta rasmni ko‘chirib&nbsp;olish:</p>
+<pre><code class="lang-JavaScript"><span class="keyword">var</span> request = <span class="built_in">require</span>(<span class="string">"request"</span>);
+<span class="keyword">var</span> max_id = <span class="string">""</span>;
+
+main();
+
+<span class="function"><span class="keyword">function</span> <span class="title">main</span>(<span class="params"></span>) </span>{
+    request({
+        <span class="attr">url</span>: <span class="string">"http://instagram.com/hamidullakhodja/media?max_id="</span> + max_id,
+        <span class="attr">method</span>: <span class="string">"<span class="caps">GET</span>"</span>,
+        <span class="attr">rejectUnauthorized</span>: <span class="literal">true</span>,
+        <span class="attr">requestCert</span>: <span class="literal">true</span>,
+        <span class="attr">agent</span>: <span class="literal">false</span>,
+        <span class="attr">json</span>: <span class="literal">true</span>
+    }, <span class="function"><span class="keyword">function</span> (<span class="params">error, response, body</span>) </span>{
+        <span class="keyword">if</span> (!error &amp;&amp; response.statusCode === <span class="number">200</span>) {
+            <span class="built_in">console</span>.log(body);
+            request(body.items[<span class="number">0</span>].images.standard_resolution.url)
+                    .pipe(<span class="built_in">require</span>(<span class="string">'fs'</span>).createWriteStream(body.items[<span class="number">0</span>].id + <span class="string">".jpg"</span>));
+
+        } <span class="keyword">else</span> {
+            <span class="built_in">console</span>.log(error);
+        }
+    });
+}
+</code></pre>
+<p>Hamma rasmlarni ko‘chirib olishni rekursiv usulini ko‘rib chiqamiz.
+Funksiya, birinchi JSONni olib kelish uchun <code>GET</code> request yuboradi va <code>max_id</code> o‘zgaruvchisini oxirgi rasmni <code>id</code>si bilan tenglashtiradi. 20ta rasmni hammasini ko‘chirib oladi va oxirida <code>more_available</code> <code>true</code> yoki <code>false</code> ligini tekshiradi. <code>true</code> bo‘lsa rasm yana borligini bildiradi va shu funksiyani yana ishlatib yuboradi. <code>false</code> bo‘lsa, rekursiyani&nbsp;to‘xtatadi. </p>
+<pre><code class="lang-JavaScript"><span class="keyword">var</span> request = <span class="built_in">require</span>(<span class="string">"request"</span>);
+<span class="keyword">var</span> max_id = <span class="string">""</span>;
+<span class="keyword">var</span> account = process.argv[<span class="number">2</span>];
+
+<span class="built_in">require</span>(<span class="string">'fs'</span>).mkdirSync(account);
+
+main();
+<span class="keyword">var</span> request_number = <span class="number">0</span>;
+
+<span class="function"><span class="keyword">function</span> <span class="title">main</span>(<span class="params"></span>) </span>{
+    request({
+        <span class="attr">url</span>: <span class="string">"http://instagram.com/"</span> + account + <span class="string">"/media?max_id="</span> + max_id,
+        <span class="attr">method</span>: <span class="string">"<span class="caps">GET</span>"</span>,
+        <span class="attr">rejectUnauthorized</span>: <span class="literal">true</span>,
+        <span class="attr">requestCert</span>: <span class="literal">true</span>,
+        <span class="attr">agent</span>: <span class="literal">false</span>,
+        <span class="attr">json</span>: <span class="literal">true</span>
+    }, <span class="function"><span class="keyword">function</span> (<span class="params">error, response, body</span>) </span>{
+        <span class="keyword">if</span> (!error &amp;&amp; response.statusCode === <span class="number">200</span>) {
+            request_number++;
+            max_id = body.items[body.items.length<span class="number">-1</span>].id;
+            <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; body.items.length; i++) {
+                <span class="built_in">console</span>.log(<span class="string">'kichkina request'</span>);
+                request(body.items[i].images.standard_resolution.url).pipe(<span class="built_in">require</span>(<span class="string">'fs'</span>).createWriteStream(<span class="string">"./"</span>+ account + <span class="string">"/"</span> + body.items[i].id + <span class="string">".jpg"</span>));
+            }
+
+            <span class="built_in">console</span>.log(<span class="string">"tugadi kichkina request"</span>);
+            <span class="keyword">if</span>(body.more_available) {
+                main(); <span class="comment">//more_available true bo'lsa yana funksiyani ishlatamiz</span>
+            } <span class="keyword">else</span> {
+                <span class="built_in">console</span>.log(<span class="string">"request numbers"</span>, request_number);
+                <span class="keyword">return</span>; <span class="comment">//rekursiv funksiyadan chiqamiz</span>
+            }
+        } <span class="keyword">else</span> {
+            <span class="built_in">console</span>.log(error);
+        }
+    });
+}
+</code></pre>
+<pre><code>$ node pargv.js hamidullakhodja
+</code></pre><h3 id="async">Async.js&nbsp;metod</h3>
+
+<p><a href="https://github.com/caolan/async">Async</a> degan modul ham bor.
+Asyncning <a href="http://caolan.github.io/async/docs.html#doUntil"><code>doUntil</code></a> funksiyasidan foydalanib ham bajarsa bo‘ladi. Agar kim Pascal(:facepalm:)ni bilsa <code>do Until</code> degan <em>expression</em>ni eslasa&nbsp;kerak   </p>
+<pre><code class="lang-JavaScript"><span class="keyword">var</span> request = <span class="built_in">require</span>(<span class="string">"request"</span>);
+<span class="keyword">var</span> <span class="keyword">async</span> = <span class="built_in">require</span>(<span class="string">'async'</span>);
+<span class="keyword">var</span> max_id = <span class="string">""</span>;
+<span class="keyword">var</span> account = process.argv[<span class="number">2</span>];
+<span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);
+fs.mkdirSync(account);
+
+available = <span class="literal">false</span>;
+<span class="keyword">async</span>.doUntil(
+    <span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>{
+        request({
+            <span class="attr">url</span>: <span class="string">"http://instagram.com/"</span> + account + <span class="string">"/media?max_id="</span> + max_id,
+            <span class="attr">method</span>: <span class="string">"<span class="caps">GET</span>"</span>,
+            <span class="attr">rejectUnauthorized</span>: <span class="literal">true</span>,
+            <span class="attr">requestCert</span>: <span class="literal">true</span>,
+            <span class="attr">agent</span>: <span class="literal">false</span>,
+            <span class="attr">json</span>: <span class="literal">true</span>
+        }, <span class="function"><span class="keyword">function</span>(<span class="params">error, response, body</span>) </span>{
+            <span class="keyword">if</span>(!error &amp;&amp; response.statusCode === <span class="number">200</span>) {
+                available = body.more_available
+                max_id = body.items[body.items.length<span class="number">-1</span>].id;
+                <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; body.items.length; i++) {
+                    request(body.items[i].images.standard_resolution.url)
+                    .pipe(<span class="built_in">require</span>(<span class="string">'fs'</span>).createWriteStream(<span class="string">"./"</span>+ account + <span class="string">"/"</span> + body.items[i].id + <span class="string">".jpg"</span>));
+                }
+                    callback(<span class="literal">null</span>, available);
+            } <span class="keyword">else</span> {
+                callback(error);
+            }
+        });
+    }, 
+    <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+        <span class="keyword">if</span>(available) {
+            <span class="keyword">return</span> <span class="literal">false</span>;
+        } <span class="keyword">else</span> {
+            <span class="keyword">return</span> <span class="literal">true</span>;
+        }
+    }, <span class="function"><span class="keyword">function</span>(<span class="params">error, status</span>) </span>{ 
+        <span class="keyword">if</span> (error) {
+            <span class="keyword">return</span> <span class="built_in">console</span>.log(error);
+        }
+    }
+);
+</code></pre>
+<h3 id="auth">Avtorizatsiya (Shu yerda muammo&nbsp;bor..)</h3>
+
+<p>Hozirgi cli dasturchamizda yopiq profildan rasmlarni ko‘chirolmaydi. Buni uchun avtorizatsiya kerak.
+Instagram avtorizatsiyasini <em>Fiddler 4</em> dasturi bilan titkilab <a href="https://instagram.com/accounts/login/ajax">https://instagram.com/accounts/login/ajax</a> orqali o‘tishini bilib oldim. Lekin negadir menda o‘xshamayapti. Kimdir o‘xshatgan bo‘lsa yoki xatoimni topsa iltimos izoh qoldiring yoki menga <a href="https://telegram.me/hamidullakhodja">telegram</a> orqali yozishingiz&nbsp;mumkin.  </p>
+<pre><code class="lang-JavaScript"><span class="keyword">var</span> request =<span class="built_in">require</span>(<span class="string">'request'</span>);
+<span class="keyword">var</span> cookie = <span class="built_in">require</span>(<span class="string">'cookie'</span>);
+
+request({
+    <span class="attr">url</span>: <span class="string">"https://instagram.com"</span>,
+      <span class="attr">method</span>: <span class="string">"<span class="caps">GET</span>"</span>,
+      <span class="attr">rejectUnauthorized</span>: <span class="literal">true</span>,
+    <span class="attr">requestCert</span>: <span class="literal">true</span>,
+    <span class="attr">agent</span>: <span class="literal">false</span>
+}, <span class="function"><span class="keyword">function</span>(<span class="params">error, response, body</span>) </span>{
+    <span class="keyword">if</span>(!error &amp;&amp; response.statusCode === <span class="number">200</span>) {
+        <span class="keyword">var</span> csrftoken = cookie.parse(response.headers[<span class="string">'set-cookie'</span>][<span class="number">2</span>]).csrftoken;
+        <span class="keyword">var</span> mid = cookie.parse(response.headers[<span class="string">'set-cookie'</span>][<span class="number">3</span>]).mid;
+        <span class="built_in">console</span>.log(<span class="string">"mid"</span>, mid);
+        <span class="built_in">console</span>.log(<span class="string">"csrftoken"</span>, csrftoken);
+        <span class="comment">// var cookies = j.getCookies('https://instagram.com');</span>
+        <span class="comment">// console.log("<span class="caps">COOK</span>", cookies)</span>
+
+        <span class="keyword">var</span> header = {
+            <span class="string">"cookie"</span> : <span class="string">"csrftoken="</span> + csrftoken + <span class="string">"; mid="</span>+ mid + <span class="string">";"</span>,
+            <span class="string">"Connection"</span>: <span class="string">"keep-alive"</span>,
+            <span class="string">"Origin"</span> : <span class="string">"https://instagram.com"</span>,
+            <span class="string">"X-Instagram-<span class="caps">AJAX</span>"</span>: <span class="number">1</span>,
+            <span class="string">"Accept-Language"</span>: <span class="string">"en-<span class="caps">US</span>,en;q=0.8"</span>,
+            <span class="string">"Accept"</span>: <span class="string">"*/*"</span>,
+            <span class="string">"Referer"</span> : <span class="string">"https://instagram.com/accounts/login"</span>,
+            <span class="string">"X-CSRFToken"</span> : csrftoken,
+            <span class="string">"User-Agent"</span> : <span class="string">"Mozilla/5.0 (Windows <span class="caps">NT</span> 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36"</span>
+        }
+        <span class="comment">// var j = request.jar();</span>
+        <span class="comment">// var cookie_mid = request.cookie("mid=" + mid);</span>
+        <span class="comment">// var cookie_csrftoken = request.cookie("csrftoken=" + csrftoken);</span>
+
+        <span class="comment">// j.setCookie(cookie_mid, "https://www.instagram.com/accounts/login/ajax/")</span>
+        <span class="comment">// j.setCookie(cookie_csrftoken, "https://www.instagram.com/accounts/login/ajax/")</span>
+        request({
+            <span class="attr">url</span>: <span class="string">"https://www.instagram.com/accounts/login/ajax/"</span>,
+              <span class="attr">method</span>: <span class="string">"<span class="caps">POST</span>"</span>,
+              <span class="attr">headers</span> : header,
+              <span class="attr">form</span> : {
+                  <span class="attr">username</span> : <span class="string">'hamidullakhodja'</span>,
+                <span class="attr">password</span> : <span class="string">'************************'</span>
+              },
+              <span class="comment">// jar : j,</span>
+              rejectUnauthorized: <span class="literal">true</span>,
+            <span class="attr">requestCert</span>: <span class="literal">true</span>,
+            <span class="attr">agent</span>: <span class="literal">false</span>
+        }, <span class="function"><span class="keyword">function</span>(<span class="params">error, response, body</span>) </span>{
+            <span class="keyword">if</span>(!error &amp;&amp; response.statusCode === <span class="number">200</span>) {
+                <span class="built_in">console</span>.log(body);
+            } <span class="keyword">else</span> {
+                <span class="built_in">console</span>.log(error);
+            }
+            <span class="built_in">console</span>.log(response.statusCode)
+            <span class="built_in">console</span>.log(response.socket._httpMessage._header) <span class="comment">// request header</span>
+            <span class="built_in">console</span>.log(response.headers) <span class="comment">// kelgan javobni headeri</span>
+
+        });
+    } <span class="keyword">else</span> {
+        <span class="built_in">console</span>.log(error)
+    }
+
+});
+</code></pre>
+<hr>
+<h2 id="apple-pen">I have a pen, I have an apple.&nbsp;Ugghh…</h2>
+
+<h3 id="init"><span class="caps">NPM</span>&nbsp;INITIALIZE</h3>
+
+<p>Endi papka ochib haqiqiy cli app tuzishni&nbsp;boshlaymiz.</p>
+<pre><code>$ mkdir instacli
+$ cd instacli
+$ npm init
+</code></pre><p>Keyin package.json sozlamalarini kiritish&nbsp;kerak:</p>
+<pre><code>name: (instacli) [Enter]
+version: (1.0.0) 0.0.1 [Enter]
+description: Bu yerda app haqida bo&#39;ladi [Enter]
+entry point: (index.js) cli.js [Enter]
+test command: --help [Enter]
+git repository: [Enter]
+keywords: [Enter]
+author: HamidullaKhodja [Enter]
+</code></pre><p><code>cli.js</code> faylni yaratamiz va yoqtirgan redaktoringizda&nbsp;ochamiz</p>
+<pre><code>$ touch cli.js
+</code></pre><h3 id="insta_cli">Bilimlarni aralashtirish vaqti&nbsp;keldi</h3>
+
+<p>Ikki xil funksiya bo‘ladi. Birinchisi ochiq akkauntliklarni rasmlari bo‘ladi. Ikkinchisi yopiq akkaunliklarni rasmlarini ko‘chirishga bo‘ladi. <code>download()</code> va <code>download_auth()</code>.</p>
+<pre><code class="lang-JavaScript"><span class="meta">#!/usr/bin/env node</span>
+
+<span class="keyword">var</span> program = <span class="built_in">require</span>(<span class="string">'commander'</span>);
+<span class="keyword">var</span> request = <span class="built_in">require</span>(<span class="string">"request"</span>);
+<span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);
+<span class="keyword">var</span> max_id = <span class="string">""</span>;
+
+
+program
+    .arguments(<span class="string">'&lt;account&gt;'</span>)
+    .option(<span class="string">'-u, --username &lt;username&gt;'</span>,  <span class="string">'Avtorizatsiya uchun Username yoziladi'</span>)
+    .option(<span class="string">'-p, --password &lt;password&gt;'</span>, <span class="string">'Avtorizatsiya uchun User ni paroli yoziladi'</span>)
+
+program.action(<span class="function"><span class="keyword">function</span>(<span class="params">account</span>) </span>{
+    <span class="keyword">if</span>( <span class="keyword">typeof</span> program.username === <span class="string">'undefined'</span> &amp;&amp; <span class="keyword">typeof</span> program.password === <span class="string">'undefined'</span> ) {
+        <span class="keyword">if</span>(!fs.existsSync(account)) fs.mkdirSync(account);
+        download(account);
+    } <span class="keyword">else</span> <span class="keyword">if</span>( <span class="keyword">typeof</span> program.username !== <span class="string">'undefined'</span> &amp;&amp; <span class="keyword">typeof</span> program.password !== <span class="string">'undefined'</span> ) { <span class="comment">//</span>
+        download_auth(program.username, program.password, account);
+    } <span class="keyword">else</span> {
+        <span class="built_in">console</span>.log(<span class="string">"Iltimos user yoki password'larniyam yozing"</span>);
+
+    }
+
+});
+
+program.parse(process.argv);
+
+
+<span class="function"><span class="keyword">function</span> <span class="title">download</span>(<span class="params">account, dir</span>) </span>{
+    request({
+        <span class="attr">url</span>: <span class="string">"http://instagram.com/"</span> + account + <span class="string">"/media?max_id="</span> + max_id,
+        <span class="attr">method</span>: <span class="string">"<span class="caps">GET</span>"</span>,
+        <span class="attr">rejectUnauthorized</span>: <span class="literal">true</span>,
+        <span class="attr">requestCert</span>: <span class="literal">true</span>,
+        <span class="attr">agent</span>: <span class="literal">false</span>,
+        <span class="attr">json</span>: <span class="literal">true</span>
+    }, <span class="function"><span class="keyword">function</span> (<span class="params">error, response, body</span>) </span>{
+        <span class="keyword">if</span> (!error &amp;&amp; response.statusCode === <span class="number">200</span>) {            
+            <span class="keyword">if</span>(body.items.length !== <span class="number">0</span>) {
+                max_id = body.items[body.items.length<span class="number">-1</span>].id;
+                <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; body.items.length; i++) {
+                    <span class="built_in">console</span>.log(body.items[i].images.standard_resolution.url);
+                    request(body.items[i].images.standard_resolution.url).pipe(fs.createWriteStream(<span class="string">"./"</span>+ account + <span class="string">"/"</span> + body.items[i].id + <span class="string">".jpg"</span>));
+                }
+
+                <span class="keyword">if</span>(body.more_available) {
+                    download(account); <span class="comment">//more_available true bo'lsa yana funksiyani ishlatamiz</span>
+                } <span class="keyword">else</span> {
+                    <span class="built_in">console</span>.log(<span class="string">"Hamma rasmlarni ko'chirib bo'ldi!"</span>);
+                    <span class="keyword">return</span>; <span class="comment">//rekursiv funksiyadan chiqamiz</span>
+                }
+            } <span class="keyword">else</span> {
+                <span class="built_in">console</span>.log(<span class="string">"Kechirasiz afsuski bu sahifa yopiq, avtorizatsiya qilib kiring"</span>);
+                fs.rmdirSync(account)
+            }
+
+        } <span class="keyword">else</span> {
+            <span class="keyword">if</span> (error) <span class="built_in">console</span>.log(error);
+            fs.rmdirSync(account);
+        }
+    });
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">download_auth</span>(<span class="params">username, password, account</span>) </span>{
+    <span class="built_in">console</span>.log(username);
+    <span class="built_in">console</span>.log(password)
+    <span class="built_in">console</span>.log(account);
+}
+</code></pre>
+<p>Kodimizni birinchi qatorida yozilgan <code>#!/usr/bin/env node</code> yozilgan kod esdan chiqmasligi kerak. Buni <a href="https://en.wikipedia.org/wiki/Shebang_(Unix)">shebang</a> deyishadi. <span class="caps">CLI</span> dasturchamizni global qilish uchun kerak. (Windows ishlatadiganlar ham yozishi kerak, bo‘lmasam global bo‘lmaydi ;-)&nbsp;) </p>
+<p>Kerakli modullarni ko‘chirib birdaniga <code>package.json</code>ga saqlab&nbsp;qo‘yamiz.</p>
+<pre><code>$ npm i request --save
+$ npm i commander --save
+</code></pre><p><span class="caps">CLI</span> dasturchamiz deyarli tayyor&nbsp;bo‘ldi!</p>
+<h3 id="global_module">Globallashtiramiz</h3>
+
+<p>Dasturchamizni hozirgi holati judayam noqulay. Faqat bir papkadan ishlatsa bo‘ladi va o‘sha papkaga tushadi rasmlar. Har safar <code>node cli.js</code> qilib ishga tushirishga to‘g‘ri&nbsp;keladi.</p>
+<p>Buni to‘g‘irlashning yo‘li bitta, modulni global qilish&nbsp;kerak.</p>
+<p><code>package.json</code>ga o‘zgartish kiritishga to‘g‘ri keladi. Unga yangi <code>bin</code> va <code>preferGlobal</code> degan polya kiritishga to‘g‘ri&nbsp;keladi:</p>
+<pre><code class="lang-JavaScript">{
+  <span class="string">"name"</span>: <span class="string">"instacli"</span>,
+  <span class="string">"version"</span>: <span class="string">"0.0.1"</span>,
+  <span class="string">"description"</span>: <span class="string">"Bu yerda app haqida bo'ladi"</span>,
+  <span class="string">"main"</span>: <span class="string">"cli.js"</span>,
+  <span class="string">"scripts"</span>: {
+    <span class="string">"test"</span>: <span class="string">"--help"</span>
+  },
+  <span class="string">"author"</span>: <span class="string">""</span>,
+  <span class="string">"license"</span>: <span class="string">"<span class="caps">ISC</span>"</span>,
+  <span class="string">"dependencies"</span>: {
+    <span class="string">"commander"</span>: <span class="string">"^2.11.0"</span>
+  }, 
+  <span class="string">"bin"</span> : {
+    <span class="string">"instacli"</span>: <span class="string">"./cli.js"</span>
+  },
+  <span class="string">"preferGlobal"</span> : <span class="literal">true</span>
+}
+</code></pre>
+<p>E’tibor bergan bo‘lsangiz <code>bin</code> ichiga global modul qanday nom bilan chaqirilishi va chaqirilganda qaysi faylni ishga tushirishini ham yozib&nbsp;ketdik.</p>
+<p>Global qilish uchun oxirgi&nbsp;qadam:</p>
+<pre><code class="lang-Javascript">$ npm i -g
+</code></pre>
+<p>Tekshirib ko‘rish uchun ishlatib&nbsp;ko‘ramiz</p>
+<pre><code>$ instacli --help
+
+  Usage: cli [options] &lt;account&gt;
+
+
+  Options:
+
+    -u, --username &lt;username&gt;  Avtorizatsiya uchun Username yoziladi
+    -p, --password &lt;password&gt;  Avtorizatsiya uchun User ni paroli yoziladi
+    -h, --help                 output usage information
+</code></pre><hr>
+<p>Ana tayyor&nbsp;bo‘ldi!!</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/xc0_BiJHt6c" frameborder="0" allowfullscreen></iframe>
+
+</section>
+          <div id="disqus_thread"></div>
+          <script>
+            var disqus_shortname = 'isawblog';
+            //- Wintersmith only variables
+            var disqus_identifier = '/wblog/articles/node-cli/';
+            var disqus_title = 'NodeJS, CLI, Instagram!';
+            //- End Wintersmith only
+            
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+          </script>
+          <noscript>
+            <Please>enable JavaScript to view the</Please><a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+          </noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="content-wrap">
+        <div class="nav"><a href="/wblog/">&laquo; Full blog</a></div>
+        <section class="about"><p> <a href="https://instagram.com/hamidullakhodja">Instagram</a></p>
+
+        </section>
+        <section class="copy">
+          <p>&copy; 2017 Hamidula Khodja &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          </p>
+        </section>
+      </div>
+    </footer>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+      $('.showmore').on("click", function() {
+        $('ul.sub li').removeClass("hidden");
+        $('ul.sub li').addClass("tags-line")
+        $(this).addClass('hidden');
+      })
+      
+    </script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      
+      ga('create', 'UA-103588972-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>
