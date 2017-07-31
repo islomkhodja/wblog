@@ -14,10 +14,11 @@
       <pubDate>Sat, 29 Jul 2017 15:00:00 +0500</pubDate>
       <guid isPermaLink="true">http://islomkhodja.github.io/wblog/wblog/articles/node-cli/</guid>
       <author></author>
-      <description>&lt;p&gt;Assalom Alaykum Dunyo! Ba’zida offline paytda chiroyli qizlarni yoki chiroyli bino va tabiatli rasmlarni ko‘rgim kelib qoladi. Bugungi postda NodeJSda command line app qilishni o‘rganamiz. Bu cli app Instagramdagi hamma rasmlaringizni ko‘chirib beradigan bo‘ladi.&lt;/p&gt;
+      <description>&lt;p&gt;Assalom Alaykum Dunyo! Ba’zida offline paytda (не взаимно и дистанционно) yaxshi ko‘radigan sevgilingizni yoki chiroyli bino va tabiatli rasmlarni ko‘rgiz kelib qoladi. Yoki instagram akkauntingizni o‘chirmoqchisiz lekin rasmlar kerak bo‘lsa, hamma rasmlarni ko‘chirishga to‘g‘ri keladi.  Bugungi postda NodeJSda command line app qilishni o‘rganamiz. Bu cli app Instagramdagi hamma rasmlaringizni ko‘chirib beradigan bo‘ladi.&lt;/p&gt;
 &lt;p&gt;&lt;span class=&quot;more&quot;&gt;&lt;/span&gt;
 &lt;img src=&quot;./cat-hayron.jpg&quot; width= &gt;&lt;/p&gt;
 &lt;hr&gt;
+&lt;p&gt;Yozadigan kodlarimiz &lt;a href=&quot;https://github.com/Islomkhodja/instacli&quot;&gt;github&lt;/a&gt;da bor.&lt;/p&gt;
 &lt;h1 id=&quot;mundarija&quot;&gt;Mundarija&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;#overview&quot;&gt;CLI&lt;/a&gt;&lt;ul&gt;
