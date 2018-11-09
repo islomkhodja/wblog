@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
-    <title>a(href=locals.url)=Markdown syntax - The Hamidulla Khodja's blog
+    <title>Markdown syntax - The Hamidulla Khodja's blog
     </title>
     <link rel="alternate" href="http://islomkhodja.github.io/wblog/feed.xml" type="application/rss+xml" title="Gastarbeiter who aspires to become an Architect. 19 y.o">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
@@ -464,7 +464,6 @@ indented from the left margin using up to three&nbsp;spaces);</li>
 in double or single quotes, or enclosed in&nbsp;parentheses.</li>
 </ul>
 <p>The following three link definitions are&nbsp;equivalent:</p>
-<p>  <a href="http://example.com/" title="Optional Title Here">foo</a>: <a href="http://example.com/">http://example.com/</a>  ‘Optional Title&nbsp;Here’</p>
 <p><strong>Note:</strong> There is a known bug in Markdown.pl 1.0.1 which prevents
 single quotes from being used to delimit link&nbsp;titles.</p>
 <p>The link <span class="caps">URL</span> may, optionally, be surrounded by angle&nbsp;brackets:</p>
@@ -562,7 +561,7 @@ escape&nbsp;it:</p>
 <pre><code>\*this text is surrounded by literal asterisks\*
 </code></pre><h3 id="code">Code</h3>
 
-<p>To indicate a span of code, wrap it with backtick quotes (<code>` </code>).
+<p>To indicate a span of code, wrap it with backtick quotes (<code>`</code>).
 Unlike a pre-formatted code block, a code span indicates code within a
 normal paragraph. For&nbsp;example:</p>
 <pre><code>Use the `printf()` function.
@@ -576,8 +575,8 @@ multiple backticks as the opening and closing&nbsp;delimiters:</p>
 </code></pre><p>The backtick delimiters surrounding a code span may include spaces –
 one after the opening, one before the closing. This allows you to place
 literal backtick characters at the beginning or end of a code&nbsp;span:</p>
-<p>  A single backtick in a code span: <code>` </code></p>
-<p>  A backtick-delimited string in a code span: <code>`foo` </code></p>
+<p>  A single backtick in a code span: <code>`</code></p>
+<p>  A backtick-delimited string in a code span: <code>`foo`</code></p>
 <p>will&nbsp;produce:</p>
   <p>A single backtick in a code span: <code>`</code></p>
 
@@ -640,7 +639,7 @@ spambots. For example, Markdown will turn&nbsp;this:</p>
 &amp;#115;&amp;#115;&amp;#64;&amp;#101;&amp;#120;&amp;#x61;&amp;#109;&amp;#x70;&amp;#x6C;e&amp;#x2E;&amp;#99;&amp;#111;
 &amp;#109;&quot;&gt;&amp;#x61;&amp;#x64;&amp;#x64;&amp;#x72;&amp;#x65;&amp;#115;&amp;#115;&amp;#64;&amp;#101;&amp;#120;&amp;#x61;
 &amp;#109;&amp;#x70;&amp;#x6C;e&amp;#x2E;&amp;#99;&amp;#111;&amp;#109;&lt;/a&gt;
-</code></pre><p>which will render in a browser as a clickable link to&nbsp;“address@example.com”.</p>
+</code></pre><p>which will render in a browser as a clickable link to “<a href="mailto:address@example.com">address@example.com</a>“.</p>
 <p>(This sort of entity-encoding trick will indeed fool many, if not
 most, address-harvesting bots, but it definitely won’t fool all of
 them. It’s better than nothing, but an address published in this way
@@ -694,12 +693,11 @@ _   underscore
     <footer>
       <div class="content-wrap">
         <div class="nav"><a href="/wblog/">&laquo; Full blog</a></div>
-        <section class="about"><p> <a href="https://github.com/islomkhodja">Github</a>
- <a href="https://instagram.com/hamidullakhodja">Instagram</a></p>
+        <section class="about"><p> <a href="https://instagram.com/hamidullakhodja">Instagram</a></p>
 
         </section>
         <section class="copy">
-          <p>&copy; 2017 Hamidula Khodja &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          <p>&copy; 2018 Hamidula Khodja &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
           </p>
         </section>
       </div>
@@ -711,6 +709,16 @@ _   underscore
         $('ul.sub li').addClass("tags-line")
         $(this).addClass('hidden');
       })
+      
+    </script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      
+      ga('create', 'UA-103588972-1', 'auto');
+      ga('send', 'pageview');
     </script>
   </body>
 </html>

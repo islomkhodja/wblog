@@ -64,9 +64,11 @@
 <pre><code class="lang-javascript">process.argv.forEach(<span class="function">(<span class="params">arg, index</span>) =&gt;</span> {
   <span class="built_in">console</span>.log(<span class="string">`<span class="subst">${index}</span>: <span class="subst">${arg}</span>`</span>);
 });
+
 </code></pre>
 <p>Keyin NodeJS <strong><em>process</em></strong>ni bunday qilib ishga&nbsp;tushirsak:</p>
 <pre><code>$ node pargv one two=three four
+
 </code></pre><p>Process menda mana bunday javob&nbsp;qaytaradi:</p>
 <pre><code>0: /usr/local/bin/node
 1: /Users/isa/test/node/pargv.js
@@ -78,7 +80,7 @@
 <p>Agar siz oddiyroq yoki o‘zingiz uchun cli dastur qilmoqchi bo‘lsangiz <code>process.argv</code> bilan qilgan maqul, ishingiz tez&nbsp;bitadi.</p>
 <p>Agar boshqalar ham ishlatishni xohlasangiz chunarliroq ko‘rinishda qilish kerak. <code>--help</code> argumentini albatta qilish kerak. Buni <code>process.argv</code> bilan qilish mumkin, lekin vaqt sarflashga to‘g‘ri keladi. Agar vaqt sarflashni xohlamasangiz <span class="caps">TJ</span> Holowaychuk yaratgan <a href="https://github.com/tj/commander.js/">commander</a> modulidan foydalanish mumkin. Bu modulda ko‘p narsalar avtomatlashgan, qulay va&nbsp;onsonlashtirilgan. </p>
 <p><strong><span class="caps">NPM</span></strong> dan <strong>commander</strong>ni ko‘chirib olamiz, <code>pargv.js</code>ga o‘zgartirishlar kiritamiz va tekshirib&nbsp;ko‘ramiz</p>
-<pre><code>$ npm i commander
+<pre><code>$ npm i commander 
 </code></pre><pre><code class="lang-Javascript"><span class="keyword">var</span> program = <span class="built_in">require</span>(<span class="string">'commander'</span>);
 
 program
@@ -99,6 +101,7 @@ program.parse(process.argv);
     <span class="built_in">console</span>.log(<span class="string">"Password "</span> + p)
     <span class="built_in">console</span>.log(<span class="string">"File     "</span> + file)
 }
+
 </code></pre>
 <pre><code>$ node pargv --help
 
@@ -148,6 +151,7 @@ main();
         }
     });
 }
+
 </code></pre>
 <p>Hamma rasmlarni ko‘chirib olishni rekursiv usulini ko‘rib chiqamiz.
 Funksiya, birinchi JSONni olib kelish uchun <code>GET</code> request yuboradi va <code>max_id</code> o‘zgaruvchisini oxirgi rasmni <code>id</code>si bilan tenglashtiradi. 20ta rasmni hammasini ko‘chirib oladi va oxirida <code>more_available</code> <code>true</code> yoki <code>false</code> ligini tekshiradi. <code>true</code> bo‘lsa rasm yana borligini bildiradi va shu funksiyani yana ishlatib yuboradi. <code>false</code> bo‘lsa, rekursiyani&nbsp;to‘xtatadi. </p>
@@ -189,6 +193,7 @@ main();
         }
     });
 }
+
 </code></pre>
 <pre><code>$ node pargv.js hamidullakhodja
 </code></pre><h3 id="async">Async.js&nbsp;metod</h3>
@@ -306,6 +311,7 @@ request({
     }
 
 });
+
 </code></pre>
 <hr>
 <h2 id="apple-pen">I have a pen, I have an apple.&nbsp;Ugghh…</h2>
@@ -399,6 +405,7 @@ program.parse(process.argv);
     <span class="built_in">console</span>.log(password)
     <span class="built_in">console</span>.log(account);
 }
+
 </code></pre>
 <p>Kodimizni birinchi qatorida yozilgan <code>#!/usr/bin/env node</code> yozilgan kod esdan chiqmasligi kerak. Buni <a href="https://en.wikipedia.org/wiki/Shebang_(Unix)">shebang</a> deyishadi. <span class="caps">CLI</span> dasturchamizni global qilish uchun kerak. (Windows ishlatadiganlar ham yozishi kerak, bo‘lmasam global bo‘lmaydi ;-)&nbsp;) </p>
 <p>Kerakli modullarni ko‘chirib birdaniga <code>package.json</code>ga saqlab&nbsp;qo‘yamiz.</p>
@@ -428,6 +435,7 @@ $ npm i commander --save
   },
   <span class="string">"preferGlobal"</span> : <span class="literal">true</span>
 }
+
 </code></pre>
 <p>E’tibor bergan bo‘lsangiz <code>bin</code> ichiga global modul qanday nom bilan chaqirilishi va chaqirilganda qaysi faylni ishga tushirishini ham yozib&nbsp;ketdik.</p>
 <p>Global qilish uchun oxirgi&nbsp;qadam:</p>
@@ -444,6 +452,7 @@ $ npm i commander --save
     -u, --username &lt;username&gt;  Avtorizatsiya uchun Username yoziladi
     -p, --password &lt;password&gt;  Avtorizatsiya uchun User ni paroli yoziladi
     -h, --help                 output usage information
+
 </code></pre><hr>
 <p>Ana tayyor&nbsp;bo‘ldi!!</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/xc0_BiJHt6c" frameborder="0" allowfullscreen></iframe>
@@ -476,7 +485,7 @@ $ npm i commander --save
 
         </section>
         <section class="copy">
-          <p>&copy; 2017 Hamidula Khodja &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          <p>&copy; 2018 Hamidula Khodja &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
           </p>
         </section>
       </div>
