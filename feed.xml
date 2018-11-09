@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>The Hamidulla Khodja's blog</title>
+    <title>Islom's blog</title>
     <atom:link href="http://islomkhodja.github.io/wblog/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://islomkhodja.github.io/wblog</link>
-    <description>Gastarbeiter who aspires to become an Architect. 19 y.o</description>
+    <description>curious developer</description>
     <pubDate>Sat, 29 Jul 2017 15:00:00 +0500</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
@@ -16,7 +16,7 @@
       <author></author>
       <description>&lt;p&gt;Assalom Alaykum Dunyo! Ba’zida offline paytda chiroyli bino va tabiatli rasmlarni ko‘rgiz kelib qoladi. Yoki instagram akkauntingizni o‘chirmoqchisiz lekin rasmlar kerak bo‘lsa, hamma rasmlarni ko‘chirishga to‘g‘ri keladi.  Bugungi postda NodeJSda command line app qilishni o‘rganamiz. Bu cli app Instagramdagi hamma rasmlaringizni ko‘chirib beradigan bo‘ladi.&lt;/p&gt;
 &lt;p&gt;&lt;span class=&quot;more&quot;&gt;&lt;/span&gt;
-&lt;img src=&quot;./cat-hayron.jpg&quot; width=&quot;200&quot; height=&quot;200&quot;&gt;&lt;/p&gt;
+&lt;img src=&quot;./cat-hayron.jpg&quot; style=&quot;display: block; width: 200px; height: 200px; margin: 0 auto; &quot;&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;Yozadigan kodlarimiz &lt;a href=&quot;https://github.com/Islomkhodja/instacli&quot;&gt;github&lt;/a&gt;da bor.&lt;/p&gt;
 &lt;h1 id=&quot;mundarija&quot;&gt;Mundarija&lt;/h1&gt;
